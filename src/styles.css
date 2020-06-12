@@ -1,0 +1,38 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.Board {
+  display: grid;
+  grid-template-columns: repeat(4, 150px);
+  grid-template-rows: repeat(4, 150px);
+  box-sizing: border-box;
+}
+
+.Box {
+  width: 145px;
+  height: 145px;
+  border: solid 5px lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px;
+  user-select: none;
+}
+
+.Box.t {
+  border-top-color: black;
+}
+
+.Box.r {
+  border-right-color: black;
+}
+
+.Box.b {
+  border-bottom-color: black;
+}
+
+.Box.l {
+  border-left-color: black;
+}
