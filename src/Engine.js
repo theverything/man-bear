@@ -1,3 +1,32 @@
+const antigonus = "🏃‍♀";
+const bear = "🐻";
+
+function cloneLayout(layout, antigonusPos, bearPos) {
+  const clone = [];
+
+  layout.forEach((r, y) => {
+    const row = [];
+
+    r.forEach((s, x) => {
+      const block = { t: s.t, r: s.r, b: s.b, l: s.l };
+
+      if (antigonusPos.x === x && antigonusPos.y === y) {
+        block.c = antigonus;
+      }
+
+      if (bearPos.x === x && bearPos.y === y) {
+        block.c = bear;
+      }
+
+      row.push(block);
+    });
+
+    clone.push(row);
+  });
+
+  return clone;
+}
+
 export default class Engine {
   constructor() {
     this.layout = [
@@ -35,17 +64,7 @@ export default class Engine {
   }
 
   updateLayout() {
-    const antigonus = "🏃‍♀";
-    const bear = "🐻";
-    let tempLayout = this.layout;
-
-    delete tempLayout[this.prevAntigonusPos.y][this.prevAntigonusPos.x].c;
-    delete tempLayout[this.prevBearPos.y][this.prevBearPos.x].c;
-
-    tempLayout[this.antigonusPos.y][this.antigonusPos.x].c = antigonus;
-    tempLayout[this.bearPos.y][this.bearPos.x].c = bear;
-
-    this.layout = tempLayout;
+    this.layout = cloneLayout(this.layout, this.antigonusPos, this.bearPos);
   }
 
   validMoves(charPos) {
@@ -162,7 +181,7 @@ export default class Engine {
     this.prevBearPos = this.bearPos;
     this.prevAntigonusPos = this.antigonusPos;
 
-    let antigonusMoved = this.antigonusMove(direction);
+    let antigonusMoved = this.antigonusMove(direction.toUpperCase());
     let bearMoved = this.bearMove();
     let winner = this.findWinner();
     this.updateLayout();
@@ -171,6 +190,7 @@ export default class Engine {
       antigonusMoved,
       bearMoved,
       winner,
+      layout: this.layout,
     };
   }
 }
