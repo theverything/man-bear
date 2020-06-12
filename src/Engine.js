@@ -5,29 +5,28 @@ export default class Engine {
         { t: 1, r: 0, b: 1, l: 1 },
         { t: 1, r: 0, b: 0, l: 0 },
         { t: 1, r: 1, b: 0, l: 0 },
-        { t: 1, r: 1, b: 0, l: 1 }
+        { t: 1, r: 1, b: 0, l: 1 },
       ],
       [
         { t: 1, r: 0, b: 1, l: 1 },
         { t: 0, r: 0, b: 0, l: 0 },
         { t: 0, r: 0, b: 0, l: 0 },
-        { t: 0, r: 1, b: 1, l: 0 }
+        { t: 0, r: 1, b: 1, l: 0 },
       ],
       [
         { t: 1, r: 0, b: 0, l: 1 },
         { t: 0, r: 0, b: 0, l: 0 },
         { t: 0, r: 0, b: 0, l: 1 },
-        { t: 1, r: 1, b: 0, l: 0 }
+        { t: 1, r: 1, b: 0, l: 0 },
       ],
       [
         { t: 0, r: 0, b: 1, l: 1 },
         { t: 0, r: 0, b: 1, l: 0 },
         { t: 0, r: 1, b: 1, l: 0 },
-        { t: 0, r: 0, b: 1, l: 1 }
-      ]
+        { t: 0, r: 0, b: 1, l: 1 },
+      ],
     ];
 
-    this.board = [[0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0]];
     this.antigonusPos = { x: 2, y: 0 };
     this.bearPos = { x: 1, y: 3 };
     this.prevBearPos = this.bearPos;
@@ -54,7 +53,7 @@ export default class Engine {
       N: false,
       S: false,
       E: false,
-      W: false
+      W: false,
     };
 
     let tile = this.layout[charPos.y][charPos.x];
@@ -143,7 +142,7 @@ export default class Engine {
   findWinner() {
     let winner = {
       antigonus: false,
-      bear: false
+      bear: false,
     };
     // if bear position == Antigonus postion
     //  bear wins
@@ -171,7 +170,7 @@ export default class Engine {
     return {
       antigonusMoved,
       bearMoved,
-      winner
+      winner,
     };
   }
 }
