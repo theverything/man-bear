@@ -44,7 +44,7 @@ export default class Engine {
       ],
       [
         { t: 1, r: 0, b: 0, l: 1 },
-        { t: 0, r: 0, b: 0, l: 0 },
+        { t: 0, r: 1, b: 0, l: 0 },
         { t: 0, r: 0, b: 0, l: 1 },
         { t: 1, r: 1, b: 0, l: 0 },
       ],
@@ -93,6 +93,7 @@ export default class Engine {
   // l == W
   bearMove() {
     let moves = this.validMoves(this.bearPos);
+    console.log("Valid moves:", moves);
     let dx = this.bearPos.x - this.antigonusPos.x;
     let dy = this.bearPos.y - this.antigonusPos.y;
     let pos = this.bearPos;
