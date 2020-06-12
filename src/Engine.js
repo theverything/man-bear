@@ -96,7 +96,7 @@ export default class Engine {
     console.log("Valid moves:", moves);
     let dx = this.bearPos.x - this.antigonusPos.x;
     let dy = this.bearPos.y - this.antigonusPos.y;
-    let pos = this.bearPos;
+    let pos = { ...this.bearPos };
 
     if (dx < 0 && moves.E) {
       // column
@@ -130,7 +130,7 @@ export default class Engine {
       let moves = this.validMoves(this.antigonusPos);
       console.log("Valid moves:", moves);
       if (moves[direction]) {
-        let pos = this.antigonusPos;
+        let pos = { ...this.antigonusPos };
         switch (direction) {
           case "N":
             pos.y -= 1;
