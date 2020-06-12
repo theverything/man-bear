@@ -181,8 +181,14 @@ export default class Engine {
     this.prevBearPos = this.bearPos;
     this.prevAntigonusPos = this.antigonusPos;
 
+    let bearMoved = false;
+
     let antigonusMoved = this.antigonusMove(direction.toUpperCase());
-    let bearMoved = this.bearMove();
+
+    if (antigonusMoved) {
+      bearMoved = this.bearMove();
+    }
+
     let winner = this.findWinner();
     this.updateLayout();
 
