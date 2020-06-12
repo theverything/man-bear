@@ -39,44 +39,58 @@ function useEngine() {
 
 export default function App() {
   const [winner, setWinner] = useState("");
-  const [dir, setDir] = useState("");
   const [state, move, reset] = useEngine();
 
-  const keyDown = useCallback((evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
+  const keyDown = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
 
-    switch (evt.keyCode) {
-      case UP:
-        move("N");
-        break;
-      case DOWN:
-        move("S");
-        break;
-      case LEFT:
-        move("W");
-        break;
-      case RIGHT:
-        move("E");
-        break;
-      case ESCAPE:
-        reset();
-        break;
-      default:
-        break;
-    }
-  }, []);
+      switch (evt.keyCode) {
+        case UP:
+          move("N");
+          break;
+        case DOWN:
+          move("S");
+          break;
+        case LEFT:
+          move("W");
+          break;
+        case RIGHT:
+          move("E");
+          break;
+        case ESCAPE:
+          reset();
+          break;
+        default:
+          break;
+      }
+    },
+    [move, reset]
+  );
 
   useEffect(() => {
+    let t = null;
+
     if (state.winner.bear) {
       setWinner("Bear");
+      t = setTimeout(() => {
+        reset();
+      }, 1000);
     } else if (state.winner.antigonus) {
       setWinner("Antigonus");
       confetti.start(1000);
+      t = setTimeout(() => {
+        reset();
+      }, 1000);
     } else {
       setWinner("");
     }
-  }, [state.winner]);
+
+    return () => {
+      clearTimeout(t);
+    };
+  }, [state.winner, reset]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDown);
