@@ -28,22 +28,22 @@ export default class Engine {
     ];
 
     this.board = [[0, 0, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 1, 0, 0]];
-    this.playerPos = { x: 2, y: 0 };
+    this.antigonusPos = { x: 2, y: 0 };
     this.bearPos = { x: 1, y: 3 };
     this.prevBearPos = this.bearPos;
-    this.prevPlayerPos = this.playerPos;
+    this.prevAntigonusPos = this.antigonusPos;
     this.updateLayout();
   }
 
   updateLayout() {
-    const player = "🏃‍♀";
+    const antigonus = "🏃‍♀";
     const bear = "🐻";
     let tempLayout = this.layout;
 
-    delete tempLayout[this.prevPlayerPos.y][this.prevPlayerPos.x].c;
+    delete tempLayout[this.prevAntigonusPos.y][this.prevAntigonusPos.x].c;
     delete tempLayout[this.prevBearPos.y][this.prevBearPos.x].c;
 
-    tempLayout[this.playerPos.y][this.playerPos.x].c = player;
+    tempLayout[this.antigonusPos.y][this.antigonusPos.x].c = antigonus;
     tempLayout[this.bearPos.y][this.bearPos.x].c = bear;
 
     this.layout = tempLayout;
@@ -75,8 +75,8 @@ export default class Engine {
   // l == W
   bearMove() {
     let moves = this.validMoves(this.bearPos);
-    let dx = this.bearPos.x - this.playerPos.x;
-    let dy = this.bearPos.y - this.playerPos.y;
+    let dx = this.bearPos.x - this.antigonusPos.x;
+    let dy = this.bearPos.y - this.antigonusPos.y;
     let pos = this.bearPos;
 
     if (dx < 0 && moves.E) {
@@ -99,7 +99,7 @@ export default class Engine {
     return true;
   }
 
-  playerMove(direction) {
+  antigonusMove(direction) {
     console.log("Attempting move:", direction);
 
     if (
@@ -108,10 +108,10 @@ export default class Engine {
       direction === "E" ||
       direction === "W"
     ) {
-      let moves = this.validMoves(this.playerPos);
+      let moves = this.validMoves(this.antigonusPos);
       console.log("Valid moves:", moves);
       if (moves[direction]) {
-        let pos = this.playerPos;
+        let pos = this.antigonusPos;
         switch (direction) {
           case "N":
             pos.y -= 1;
@@ -131,8 +131,8 @@ export default class Engine {
             break;
         }
 
-        console.log(this.playerPos, pos);
-        this.playerPos = pos;
+        console.log(this.antigonusPos, pos);
+        this.antigonusPos = pos;
         return true;
       }
     }
@@ -142,15 +142,15 @@ export default class Engine {
 
   findWinner() {
     let winner = {
-      player: false,
+      antigonus: false,
       bear: false
     };
-    // if bear position == player postion
+    // if bear position == Antigonus postion
     //  bear wins
-    winner.bear = this.comparePos(this.playerPos, this.bearPos);
-    // if player position = 3,3
-    //  player wins
-    winner.player = this.comparePos(this.playerPos, { x: 3, y: 3 });
+    winner.bear = this.comparePos(this.antigonusPos, this.bearPos);
+    // if Antigonus position = 3,3
+    //  Antigonus wins
+    winner.antigonus = this.comparePos(this.antigonusPos, { x: 3, y: 3 });
 
     return winner;
   }
@@ -161,15 +161,15 @@ export default class Engine {
 
   step(direction) {
     this.prevBearPos = this.bearPos;
-    this.prevPlayerPos = this.playerPos;
+    this.prevAntigonusPos = this.antigonusPos;
 
-    let playerMoved = this.playerMove(direction);
+    let antigonusMoved = this.antigonusMove(direction);
     let bearMoved = this.bearMove();
     let winner = this.findWinner();
     this.updateLayout();
 
     return {
-      playerMoved,
+      antigonusMoved,
       bearMoved,
       winner
     };
