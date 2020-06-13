@@ -28,36 +28,11 @@ function cloneLayout(layout, antigonusPos, bearPos) {
 }
 
 export default class Engine {
-  constructor() {
-    this.layout = [
-      [
-        { t: 1, r: 0, b: 1, l: 1 },
-        { t: 1, r: 0, b: 0, l: 0 },
-        { t: 1, r: 1, b: 0, l: 0 },
-        { t: 1, r: 1, b: 0, l: 1 },
-      ],
-      [
-        { t: 1, r: 0, b: 1, l: 1 },
-        { t: 0, r: 0, b: 0, l: 0 },
-        { t: 0, r: 0, b: 0, l: 0 },
-        { t: 0, r: 1, b: 1, l: 0 },
-      ],
-      [
-        { t: 1, r: 0, b: 0, l: 1 },
-        { t: 0, r: 1, b: 0, l: 0 },
-        { t: 0, r: 0, b: 0, l: 1 },
-        { t: 1, r: 1, b: 0, l: 0 },
-      ],
-      [
-        { t: 0, r: 0, b: 1, l: 1 },
-        { t: 0, r: 0, b: 1, l: 0 },
-        { t: 0, r: 1, b: 1, l: 0 },
-        { t: 0, r: 0, b: 1, l: 1 },
-      ],
-    ];
-
-    this.antigonusPos = { x: 2, y: 0 };
-    this.bearPos = { x: 1, y: 3 };
+  constructor(layout, antigonusPos, bearPos, winPos) {
+    this.layout = layout;
+    this.antigonusPos = antigonusPos;
+    this.bearPos = bearPos;
+    this.winPos = winPos;
     this.prevBearPos = this.bearPos;
     this.prevAntigonusPos = this.antigonusPos;
     this.updateLayout();
@@ -169,7 +144,7 @@ export default class Engine {
     winner.bear = this.comparePos(this.antigonusPos, this.bearPos);
     // if Antigonus position = 3,3
     //  Antigonus wins
-    winner.antigonus = this.comparePos(this.antigonusPos, { x: 3, y: 3 });
+    winner.antigonus = this.comparePos(this.antigonusPos, this.winPos);
 
     return winner;
   }

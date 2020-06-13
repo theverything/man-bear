@@ -11,11 +11,47 @@ const LEFT = 37;
 const RIGHT = 39;
 const ESCAPE = 27;
 
+const layout = [
+  [
+    { t: 1, r: 0, b: 1, l: 1 },
+    { t: 1, r: 0, b: 0, l: 0 },
+    { t: 1, r: 1, b: 0, l: 0 },
+    { t: 1, r: 1, b: 0, l: 1 },
+  ],
+  [
+    { t: 1, r: 0, b: 1, l: 1 },
+    { t: 0, r: 0, b: 0, l: 0 },
+    { t: 0, r: 0, b: 0, l: 0 },
+    { t: 0, r: 1, b: 1, l: 0 },
+  ],
+  [
+    { t: 1, r: 0, b: 0, l: 1 },
+    { t: 0, r: 1, b: 0, l: 0 },
+    { t: 0, r: 0, b: 0, l: 1 },
+    { t: 1, r: 1, b: 0, l: 0 },
+  ],
+  [
+    { t: 0, r: 0, b: 1, l: 1 },
+    { t: 0, r: 0, b: 1, l: 0 },
+    { t: 0, r: 1, b: 1, l: 0 },
+    { t: 0, r: 0, b: 1, l: 1 },
+  ],
+];
+
+const antigonusPos = { x: 2, y: 0 };
+const bearPos = { x: 1, y: 3 };
+const winPos = { x: 3, y: 3 };
+
 function useEngine() {
   const engine = useRef();
+  const size = useRef();
 
   if (!engine.current) {
-    engine.current = new Engine();
+    engine.current = new Engine(layout, antigonusPos, bearPos, winPos);
+    size.current = {
+      width: engine.current.layout.length,
+      height: engine.current.layout[0].length,
+    };
   }
 
   const [state, setState] = useState({
@@ -24,7 +60,11 @@ function useEngine() {
   });
 
   const reset = useCallback(() => {
-    engine.current = new Engine();
+    engine.current = new Engine(layout, antigonusPos, bearPos, winPos);
+    size.current = {
+      width: engine.current.layout.length,
+      height: engine.current.layout[0].length,
+    };
     setState({ layout: engine.current.layout, winner: {} });
   }, []);
 
@@ -34,12 +74,12 @@ function useEngine() {
     setState({ layout: nextLayout, winner });
   }, []);
 
-  return [state, move, reset];
+  return [state, move, reset, size.current.width, size.current.height];
 }
 
 export default function App() {
   const [winner, setWinner] = useState("");
-  const [state, move, reset] = useEngine();
+  const [state, move, reset, width, height] = useEngine();
 
   const keyDown = useCallback(
     (evt) => {
@@ -103,7 +143,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>{winner !== "" ? `The ${winner} wins!!` : "Who will win?"}</h1>
-      <Board layout={state.layout} />
+      <Board layout={state.layout} width={width} height={height} />
     </div>
   );
 }

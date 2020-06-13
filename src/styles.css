@@ -1,3 +1,8 @@
+:root {
+  --grid-cols: 4;
+  --grid-rows: 4;
+}
+
 .App {
   height: 100vh;
   font-family: sans-serif;
@@ -10,8 +15,8 @@
 
 .Board {
   display: grid;
-  grid-template-columns: repeat(4, 150px);
-  grid-template-rows: repeat(4, 150px);
+  grid-template-columns: repeat(var(--grid-cols), 150px);
+  grid-template-rows: repeat(var(--grid-rows), 150px);
   box-sizing: border-box;
 }
 
